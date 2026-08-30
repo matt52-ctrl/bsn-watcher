@@ -11,7 +11,7 @@ import random
 import subprocess
 import sys
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 
 BASE = "https://afspraak.utrecht.nl/qmaticwebbooking/rest/schedule"
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
@@ -251,13 +251,18 @@ def un_controllo(stato):
                  silenzioso=True)
 
     stato["visti"] = sorted(visti)
-    stato["aggiornato"] = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
+    stato["aggiornato"] = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
     salva_stato(stato)
     return cieco, totale
 
 
 def main():
     una_volta = "--once" in sys.argv
+    if "--prova" in sys.argv:
+        ok = telegram("Prova del watcher BSN dal cloud. Se leggi questo, gli avvisi arrivano "
+                      "anche a Mac spento.", silenzioso=True)
+        log("prova Telegram: %s" % ("inviata" if ok else "FALLITA"))
+        sys.exit(0 if ok else 1)
     stato = carica_stato()
 
     if una_volta:

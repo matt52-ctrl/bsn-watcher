@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: "*/5 * * * *"   # ogni 5 minuti: e' il minimo che GitHub consente
   workflow_dispatch:         # bottone "Run workflow" per provarlo a mano
+    inputs:
+      prova:
+        description: "Manda solo un messaggio di prova su Telegram"
+        type: boolean
+        default: false
 
 permissions:
   contents: write            # serve per ricommittare stato.json
@@ -23,7 +28,7 @@ jobs:
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: python3 bsn.py --once
+        run: python3 bsn.py --once ${{ inputs.prova && '--prova' || '' }}
 
       - name: Salva lo stato se e' cambiato
         run: |
