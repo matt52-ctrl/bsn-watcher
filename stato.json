@@ -1,7 +1,10 @@
 {
- "aggiornato": "2026-09-05 05:49:32 UTC",
+ "aggiornato": "2026-09-05 09:29:33 UTC",
  "cecita_segnalata": false,
  "cicli_ciechi": 0,
  "ultimo_heartbeat": 1788558216.5621352,
- "visti": []
+ "visti": [
+  "166|2026-09-08 13:00",
+  "166|2026-09-08 13:20"
+ ]
 }
